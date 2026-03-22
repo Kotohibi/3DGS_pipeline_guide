@@ -1,0 +1,158 @@
+# Overview
+This workflow demonstrates an example of performing robust and relatively fast camera alignment (SfM) using omnidirectional images: Equirectangular (equidistant cylindrical projection) images, followed by training 3D Gaussian Splatting (3DGS).
+
+# References
+* https://x.com/naribubu/status/2034937726756430125
+* https://x.com/naribubu/status/2015376645360849394
+* https://x.com/naribubu/status/2020138127084695876
+* https://x.com/naribubu/status/2017883648075391214 (As for --yaw-offset option)
+
+# Requirements
+* 360° Camera
+    * DJI OSMO360
+    * Insta360
+:::message
+* Metashape Standard
+    * Directly supports SfM with omnidirectional images; extremely fast and robust.
+    * https://www.agisoft.com/features/standard-edition/
+:::
+* 3D Gaussian Splatting software
+    * Postshot: https://www.jawset.com/
+    * LichtFeld Studio (LFS): https://github.com/MrNeRF/LichtFeld-Studio
+    * Brush: https://github.com/ArthurBrussee/brush
+* Still-image extraction tool from video
+    * Extract Sharpest Frame
+        * https://github.com/Kotohibi/Extract_sharpest_frame
+    * BOOTH Windows Binary Edition: https://kotohibi-cg.booth.pm/
+* Metashape 360 SfM to COLMAP-format Cubemap conversion tool
+    * Metashape 360 to COLMAP Converter
+        * https://github.com/Kotohibi/Metashape_360_to_COLMAP_plane
+    * BOOTH Windows Binary Edition: https://kotohibi-cg.booth.pm/
+
+# Video Shooting (e.g. OSMO360)
+Attach the camera to a selfie stick and slowly walk through the area you want to capture.  
+Recommended video settings: D-Log M, 30 fps or higher.
+
+# Develop the Video
+### Import the captured data into DJI Studio and perform color grading (color restoration).  
+Apply the settings inside the red frame in the image below. Everything else can be left at default.  
+![](https://storage.googleapis.com/zenn-user-upload/60fc28c6c26e-20260322.png)
+### Export the video  
+Export as an MP4 omnidirectional video. Example settings are shown in the image below.  
+![](https://storage.googleapis.com/zenn-user-upload/b80d49f8fef6-20260322.png)
+
+# Extract Still Images from Video
+There are many ways to extract still images from video. Research and choose your preferred method.  
+Here I introduce the tool I have published.  
+**Extract Sharpest Frame** is a tool that extracts the sharpest image at specified frame intervals.  
+* **New features are prioritized for updates in the BOOTH edition**  
+![](https://storage.googleapis.com/zenn-user-upload/a130e195b3a2-20260322.png)
+
+| Main Item          | Description |
+|--------------------|-------------|
+| Video file         | Select the omnidirectional video |
+| Output folder      | Specify the folder where still images will be saved |
+| Scale width        | Image size used when calculating sharpness for all video frames. Larger values give more precise calculations. Note: Extracted images are always output at the original video resolution. |
+| Chunk size         | Interval for extracting still images. For a 30 fps video, setting 30 extracts images every 1 second. |
+| Workers            | Number of processes used when calculating image sharpness. Around 4 is recommended. |
+| Analysis only      | Perform only sharpness calculation. Calculation results (metadata) are saved in the output folder. On subsequent runs, if metadata exists in the output folder, the analysis phase is skipped and only image extraction is performed. Useful when adjusting Chunk size. |
+| Run                | Execute processing |
+
+### Execution Result
+Still images are extracted as shown below. Please check the SfM result in the next step and readjust the Chunk size if necessary.  
+![](https://storage.googleapis.com/zenn-user-upload/0b75a72fb38b-20260322.png)
+
+# Perform Camera Alignment (SfM)
+Use Metashape Standard, which can directly process omnidirectional images for SfM.  
+### Load the extracted omnidirectional images  
+[Workflow] → [Add Folder]  
+![](https://storage.googleapis.com/zenn-user-upload/b39e5a8c4bc7-20260322.png)
+### Change Camera Type to Spherical  
+Select [Tools] → [Camera Calibration] and set Camera type to Spherical.  
+![](https://storage.googleapis.com/zenn-user-upload/25897fe5c593-20260322.png)
+### Set SfM parameters  
+[Workflow] → [Align Photos]  
+Here is an example of parameters I often use.  
+![](https://storage.googleapis.com/zenn-user-upload/40f4ec313cf7-20260322.png)
+### Execute  
+Click OK to run SfM.  
+Example result shown below. The spherical markers correspond to each omnidirectional image.  
+![](https://storage.googleapis.com/zenn-user-upload/026d9b7f7c2b-20260322.png)
+### Export SfM results
+    * Export Camera information  
+      [File] → [Export] → [Export Cameras] → Select Agisoft XML (*.xml) and save.
+    * Export Point Cloud  
+      [File] → [Export] → [Export Point Cloud] → Select Stanford PLY (*.ply) and save.
+
+# Convert to COLMAP Cubemap
+Convert the Metashape SfM results into COLMAP-format 6-direction Cubemap images.  
+Here I introduce the tool I have published.  
+**Metashape 360 to COLMAP Converter**  
+* **New features are prioritized for updates in the BOOTH edition**  
+### Settings ①  
+![](https://storage.googleapis.com/zenn-user-upload/e7cf4c196027-20260322.png)
+
+| Main Item          | Description |
+|--------------------|-------------|
+| Input Images Folder| Specify the folder containing the extracted omnidirectional images |
+| Metashape XML      | Specify the Camera.xml from the SfM results |
+| PLY File           | Specify the point_cloud.ply from the SfM results |
+| Output Folder      | Specify the folder where the Cubemap will be saved |
+| Crop Size          | Pixel size for the 6-direction crop. For OSMO360 8K video, 1920 is fine. |
+| FoV                | Field of view for the 6-direction crop. 90° is fine. |
+| Max Images         | Upper limit on the number of omnidirectional images to process. Use a small value when testing. |
+| Image Range        | Specify a range of omnidirectional images to process (useful for partial processing). |
+| Workers            | Number of processing threads. Adjust according to the number of CPU cores. |
+| Yaw Offset         | Add variation to the Cubemap Yaw angle. The specified angle is added to each Cubemap. 5–30° is recommended. |
+| Save Config        | Save the above settings as a config file |
+| Run Conversion     | Start the Cubemap conversion process |
+
+### Settings ②  
+* You can mask moving objects such as people or vehicles.  
+* Especially important for 360° cameras because the operator is often captured in the frame. Mask generation is a critical step.  
+:::message
+* **The settings below are explained in the BOOTH edition. The GitHub version has fewer features.**  
+![](https://storage.googleapis.com/zenn-user-upload/51916a668c5a-20260322.png)
+
+| Main Item             | Description |
+|-----------------------|-------------|
+| Mask Pass Mode        | Single: Detects moving objects only from the omnidirectional image (fast but lower accuracy). Dual: Uses both omnidirectional and Cubemap images (more processing but higher accuracy). |
+| Merge Mode            | Mode used when combining masks in Dual mode. "union" simply merges both; "refine" uses the Cubemap mask as the base and integrates the omnidirectional mask. "refine" is recommended. |
+| YOLO Class IDs        | Specify detected object IDs. 0: person, 1: bicycle, 2: car, etc. You can specify various moving objects. https://github.com/ultralytics/ultralytics/blob/main/ultralytics/cfg/datasets/coco.yaml |
+| YOLO Confidence       | Lowering the threshold increases detection rate but also increases noise. |
+| Enable overexposure mask | Overexposed (blown-out) pixels can become noise during 3DGS training. Enable this if you want to remove them. |
+:::
+### Execute  
+After processing completes successfully, the following folders and files are generated in the output folder.  
+![](https://storage.googleapis.com/zenn-user-upload/fc379b61d4eb-20260322.png)
+
+# 3D Gaussian Splatting Training
+Here I explain using Postshot.
+
+### Import Cubemap
+![](https://storage.googleapis.com/zenn-user-upload/cb6564b73383-20260322.png)
+* First, drag & drop the Images folder, cameras.txt, images.txt, and points3D.txt into Postshot.
+
+### Mask Settings
+![](https://storage.googleapis.com/zenn-user-upload/14a3f080601f-20260322.png)
+::: message
+* Next, drag & drop the masks folder into the Image Masks area in Postshot.  
+Select **Remove Background** for Mask Mode.
+:::
+
+### Cubemap Import Result
+![](https://storage.googleapis.com/zenn-user-upload/41e8ba454bde-20260322.png)
+* Once the Cubemap is successfully imported, you will see a screen like the one above.
+
+### Start 3DGS Training
+![](https://storage.googleapis.com/zenn-user-upload/d298d3ed5248-20260322.png)
+* Here is an example of training parameters I use for wide-area 3DGS. Adjust parameters according to your scene.
+
+### 3DGS Training Result
+![](https://storage.googleapis.com/zenn-user-upload/420154d101ed-20260322.png)
+* As training progresses, you should start seeing the 3DGS!
+
+# Finally
+There are many 3DGS methods, and this article is just one example. I will continue sharing the latest information on my X account.  
+Please research on your own and develop even better techniques. Enjoy 3DGS :)  
+* my X: https://x.com/naribubu
