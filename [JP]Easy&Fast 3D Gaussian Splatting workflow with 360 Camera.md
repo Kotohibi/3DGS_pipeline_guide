@@ -9,11 +9,11 @@
 * 360° カメラ
     * DJI OSMO360
     * Insta360
- :::message
+ 
 * Metashape Standard
     * 全天球画像を直接SfM可能で、非常に高速&ロバストです
     * https://www.agisoft.com/features/standard-edition/
-:::
+
 * 3D Gaussian Splatting software
     * Postshot: https://www.jawset.com/
     * LichtFeld Studio(LFS): https://github.com/MrNeRF/LichtFeld-Studio
@@ -106,7 +106,7 @@ MetashapeのSfM結果からCOLMAP形式に6方向画像のCubemap展開します
 * 人物や自動車等の動体をマスクすることが可能です
 * 特に360 Cameraは自身が映りこむ為、マスク生成は重要な作業になります
 
-:::message
+
 * **下記設定内容はBOOTH版で説明します、Github版より機能強化されています**
 ![](https://storage.googleapis.com/zenn-user-upload/51916a668c5a-20260322.png)
 
@@ -117,7 +117,7 @@ MetashapeのSfM結果からCOLMAP形式に6方向画像のCubemap展開します
 |YOLO Class IDs|検出した動体IDを指定します。 0: person, 1: bicycle, 2: car, etc.. 様々な動体を指定可能です。https://github.com/ultralytics/ultralytics/blob/main/ultralytics/cfg/datasets/coco.yaml|
 |YOLO Confidence|閾値を下げると認識率は上がりますが、ノイズも増えます|
 |Enable overexposure mask|白飛び画素は3DGS学習時にノイズ成分になる場合があります、除去したい場合に有効にしてください|
-:::
+
 ### 実行
 処理実行後、正常に完了すると出力フォルダに以下のようなフォルダとファイルが生成されます
 ![](https://storage.googleapis.com/zenn-user-upload/fc379b61d4eb-20260322.png)
@@ -129,10 +129,10 @@ MetashapeのSfM結果からCOLMAP形式に6方向画像のCubemap展開します
 * まず、Imagesフォルダ, cameras.txt, images.txt, points3D.txtを選択してPostshotにドラッグ&ドロップします
 ### Mask設定
 ![](https://storage.googleapis.com/zenn-user-upload/14a3f080601f-20260322.png)
-::: message
+
 * 次にmasksフォルダをPostshotのImage Masksの領域にドラッグ&ドロップします
 Mask Modeは**Remove Background**を選択します
-:::
+
 
 ### Cubemapの取り込み結果
 ![](https://storage.googleapis.com/zenn-user-upload/41e8ba454bde-20260322.png)

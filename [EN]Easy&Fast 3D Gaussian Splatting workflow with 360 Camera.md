@@ -11,11 +11,11 @@ This workflow demonstrates an example of performing robust and relatively fast c
 * 360° Camera
     * DJI OSMO360
     * Insta360
-:::message
+
 * Metashape Standard
     * Directly supports SfM with omnidirectional images; extremely fast and robust.
     * https://www.agisoft.com/features/standard-edition/
-:::
+
 * 3D Gaussian Splatting software
     * Postshot: https://www.jawset.com/
     * LichtFeld Studio (LFS): https://github.com/MrNeRF/LichtFeld-Studio
@@ -110,7 +110,7 @@ Here I introduce the tool I have published.
 ### Settings ②  
 * You can mask moving objects such as people or vehicles.  
 * Especially important for 360° cameras because the operator is often captured in the frame. Mask generation is a critical step.  
-:::message
+
 * **The settings below are explained in the BOOTH edition. The GitHub version has fewer features.**  
 ![](https://storage.googleapis.com/zenn-user-upload/51916a668c5a-20260322.png)
 
@@ -121,7 +121,7 @@ Here I introduce the tool I have published.
 | YOLO Class IDs        | Specify detected object IDs. 0: person, 1: bicycle, 2: car, etc. You can specify various moving objects. https://github.com/ultralytics/ultralytics/blob/main/ultralytics/cfg/datasets/coco.yaml |
 | YOLO Confidence       | Lowering the threshold increases detection rate but also increases noise. |
 | Enable overexposure mask | Overexposed (blown-out) pixels can become noise during 3DGS training. Enable this if you want to remove them. |
-:::
+
 ### Execute  
 After processing completes successfully, the following folders and files are generated in the output folder.  
 ![](https://storage.googleapis.com/zenn-user-upload/fc379b61d4eb-20260322.png)
@@ -135,10 +135,10 @@ Here I explain using Postshot.
 
 ### Mask Settings
 ![](https://storage.googleapis.com/zenn-user-upload/14a3f080601f-20260322.png)
-::: message
+
 * Next, drag & drop the masks folder into the Image Masks area in Postshot.  
 Select **Remove Background** for Mask Mode.
-:::
+
 
 ### Cubemap Import Result
 ![](https://storage.googleapis.com/zenn-user-upload/41e8ba454bde-20260322.png)
