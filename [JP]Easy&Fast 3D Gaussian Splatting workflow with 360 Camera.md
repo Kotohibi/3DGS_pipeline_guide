@@ -4,7 +4,7 @@
 * https://x.com/naribubu/status/2034937726756430125
 * https://x.com/naribubu/status/2015376645360849394
 * https://x.com/naribubu/status/2020138127084695876
-* https://x.com/naribubu/status/2017883648075391214 (As for --yaw-offset otpion)
+* https://x.com/naribubu/status/2017883648075391214 (As for --yaw-offset option)
 # 必要な物
 * 360° カメラ
     * DJI OSMO360
@@ -21,65 +21,79 @@
 * 動画から静止画切り出しツール
     * Extract Sharpest Frame
         * https://github.com/Kotohibi/Extract_sharpest_frame
-    * BOOTH版 Windows Binary Edition: https://kotohibi-cg.booth.pm/
+        * BOOTH版 Windows Binary Edition: https://kotohibi-cg.booth.pm/
 * Metashape 360 SfMからCOLMAP形式のCubemap変換ツール
     * Metashape 360 to COLMAP Converter
         * https://github.com/Kotohibi/Metashape_360_to_COLMAP_plane
-    * BOOTH版 Windows Binary Edition: https://kotohibi-cg.booth.pm/
+        * BOOTH版 Windows Binary Edition: https://kotohibi-cg.booth.pm/
 
 # 動画撮影する(e.g. OSMO360)
 カメラを自撮り棒に付けて、キャプチャしたい範囲をゆっくりと歩きます
 動画設定はD-Log M, 30fps以上の撮影がお勧めです
 # 動画を現像する
 ### DJI Studioに撮影データを取り込み、現像処理(色復元)をします
-下記画像の赤枠の設定を実施。それ以外はデフォルトでOKです
+* 下記画像の赤枠の設定を実施。それ以外はデフォルトでOKです
 ![](https://storage.googleapis.com/zenn-user-upload/60fc28c6c26e-20260322.png)
 ### 動画を書き出す
-全天球動画としてMP4ファイルで動画を書き出します。設定例を下図に示します
+* 全天球動画としてMP4ファイルで動画を書き出します。設定例を下図に示します
 ![](https://storage.googleapis.com/zenn-user-upload/b80d49f8fef6-20260322.png)
 # 動画から静止画を切り出す
-動画から静止画を切り出す方法は様々あります。お好きな方法を調査、選択してください
+* 動画から静止画を切り出す方法は様々あります。お好きな方法を調査、選択してください
 ここでは私が公開しているツールをご紹介します
 **Extract Sharpest Frame**は指定フレーム間隔で一番シャープな画像を切り出すツールです
 * **新機能はBOOTH版を優先的にupdateしております**
-![](https://storage.googleapis.com/zenn-user-upload/a130e195b3a2-20260322.png)
+![](./images/ESP_2.png)
 
 |主要項目|説明|
 |---|---|
 |Video file|全天球動画を選択|
-|Output folder|静止画を切り出す先のフォルダを指定|
+|Output folder|静止画とマスクを切り出す先のフォルダを指定。このフォルダ以下にframesとmasksフォルダが作られます|
 |Scale width|全動画フレームの画像のシャープさを計算する時の画サイズです。大きくした方が緻密に計算されます。注）切り出し画像は常にオリジナル動画と同じ画サイズで切り出されます|
 |Chunk size|静止画を切り出す間隔を指定。30fps動画で30を指定すると1秒間隔で切り出されます|
-|Workers|画像のシャープさを計算する時のプロセス数を指定。4前後がお勧めです。|
+|Workers|画像のシャープさを計算する時のプロセス数を指定。4前後がお勧めです|
+|Mask Generation|人や自動車等の動体のマスク画像を生成します。後段のSfMの精度が上がります|
+|YOLO Class IDs|検出したい動体IDを指定します。 0: person, 1: bicycle, 2: car, etc.. 様々な動体を指定可能です。https://github.com/ultralytics/ultralytics/blob/main/ultralytics/cfg/datasets/coco.yaml|
+|YOLO Confidence|閾値を下げると認識率は上がりますが、ノイズも増えます|
 |Analysis only|画像のシャープさの計算のみ行います。出力フォルダに計算結果（メタ情報）が保存されます。次回から出力フォルダにメタ情報があると、解析フェーズをスキップして画像切り出しができます。Chunk sizeを調整した場合に有効です。|
 |Run|処理実行|
 
 ### 実行結果
-このように静止画が切り出されます。次StepのSfMの結果を見てChunk sizeを再調整してください
+* このように静止画が切り出されます。次StepのSfMの結果を見てChunk sizeを再調整してください
 ![](https://storage.googleapis.com/zenn-user-upload/0b75a72fb38b-20260322.png)
+* **マスクも自動で生成されます**
+![](./images/Extracted_mask.png)
+
 # カメラアラインメント(SfM)をする
 SfMは全天球画像をダイレクトに処理できるMetashape Standardを使います
 ### 切り出した全天球画像をロードします
-[Workflow]->[Add Folder]
+* [Workflow]->[Add Folder]
 ![](https://storage.googleapis.com/zenn-user-upload/b39e5a8c4bc7-20260322.png)
 ### Camera TypeをSphericalに変更
-[Tools]->[Camera Calibration]を選択して、Camera typeをSphericalを選択します
+* [Tools]->[Camera Calibration]を選択して、Camera typeにSphericalを選択します
 ![](https://storage.googleapis.com/zenn-user-upload/25897fe5c593-20260322.png)
+### マスク画像の読み込み
+* [File]->[Import]->[Import Masks]を選択します
+![](./images/metashape_mask_load.png)
+* マスク読み込み設定を以下にして、[OK]を押します
+その後フォルダ選択画面が出るので、Extract Sharpest Frameで生成したマスクフォルダを指定します
+![](./images/metashape_mask_load_2.png)
+
 ### SfMのパラメータ設定
-[Workflow]->[Align Photos]
+* [Workflow]->[Align Photos]
 私が良く使うパラメータ例を示します
-![](https://storage.googleapis.com/zenn-user-upload/40f4ec313cf7-20260322.png)
+[**Apply masks to**]は[**Key points**]を選択します。
+![](./images/metashape_3_mask.png)
 ### 実行
-OKボタンを押して、SfMを実行します
+* OKボタンを押して、SfMを実行します
 結果例を示します。球体マークがそれぞれの全天球画像に相当します
 ![](https://storage.googleapis.com/zenn-user-upload/026d9b7f7c2b-20260322.png)
 ### SfM結果のエクスポート
-    * Camera情報のエクスポート
+  * Camera情報のエクスポート
       [File]->[Export]->[Export Cameras]でAgisoft XML(*.xml)を選択して保存します
-    * Point Cloudのエクスポート
-      [File]->[Export]->[Export Point Cloud]でStandord PLY(*.ply) を選択して保存します
+  * Point Cloudのエクスポート
+      [File]->[Export]->[Export Point Cloud]でStanford PLY(*.ply) を選択して保存します
 # COLMAP Cubemapに変換する
-MetashapeのSfM結果からCOLMAP形式に6方向画像のCubemap展開します
+* MetashapeのSfM結果からCOLMAP形式の6方向画像のCubemapに展開します
 ここでは私が公開しているツールをご紹介します
 **Metashape 360 to COLMAP Converter**
 * **新機能はBOOTH版を優先的にupdateしております**
@@ -95,7 +109,7 @@ MetashapeのSfM結果からCOLMAP形式に6方向画像のCubemap展開します
 |Output Folder|Cubemap展開先のフォルダを指定|
 |Crop Size|6方向に切り出す画サイズ、OSMO360の8K動画の場合は1920でOK|
 |FoV|6方向に切り出す視野角、90°でOK|
-|Max Images|全天球画像の処理枚数上限、動作テストする際に小さい値を指定下さい|
+|Max Images|全天球画像の処理枚数上限、動作テストする際に小さい値を指定してください|
 |Image Range|処理対象の全天球画像を範囲指定可能、部分的に処理する際に指定ください|
 |Workers|処理のプロセス数、お使いのCPUのコア数に応じて増減させてください|
 |Yaw Offset|CubemapのYaw角度にバリエーションを持たせることが可能。Cubemap毎に指定角度が加算されます。5～30°の範囲がお勧めです|
@@ -104,9 +118,7 @@ MetashapeのSfM結果からCOLMAP形式に6方向画像のCubemap展開します
 
 ### 設定②
 * 人物や自動車等の動体をマスクすることが可能です
-* 特に360 Cameraは自身が映りこむ為、マスク生成は重要な作業になります
-
-
+特に360 Cameraは自身が映り込む為、マスク生成は重要な作業になります
 * **下記設定内容はBOOTH版で説明します、Github版より機能強化されています**
 ![](https://storage.googleapis.com/zenn-user-upload/51916a668c5a-20260322.png)
 
@@ -114,35 +126,65 @@ MetashapeのSfM結果からCOLMAP形式に6方向画像のCubemap展開します
 |---|---|
 |Mask Pass Mode|Singleは全天球画像で動体を認識します。高速ですが精度は低いです。Dualは全天球画像とCubemap画像両方で動体を認識します。処理量は多いですが、認識精度が高いです|
 |Merge Mode|Dualモード時にマスクを結合させるモードです。unionは双方の単純結合、refineはCubemapのマスクをベースに全天球マスクが統合されます。refineがお勧めです|
-|YOLO Class IDs|検出した動体IDを指定します。 0: person, 1: bicycle, 2: car, etc.. 様々な動体を指定可能です。https://github.com/ultralytics/ultralytics/blob/main/ultralytics/cfg/datasets/coco.yaml|
+|YOLO Class IDs|検出したい動体IDを指定します。 0: person, 1: bicycle, 2: car, etc.. 様々な動体を指定可能です。https://github.com/ultralytics/ultralytics/blob/main/ultralytics/cfg/datasets/coco.yaml|
 |YOLO Confidence|閾値を下げると認識率は上がりますが、ノイズも増えます|
 |Enable overexposure mask|白飛び画素は3DGS学習時にノイズ成分になる場合があります、除去したい場合に有効にしてください|
 
 ### 実行
-処理実行後、正常に完了すると出力フォルダに以下のようなフォルダとファイルが生成されます
+* 処理実行後、正常に完了すると出力フォルダに以下のようなフォルダとファイルが生成されます
 ![](https://storage.googleapis.com/zenn-user-upload/fc379b61d4eb-20260322.png)
   
-# 3D Gaussian Splattingの学習
+# （Postshot編）3D Gaussian Splattingの学習
 ここではPostshotを使って説明します
 ### Cubemapの取り込み
+* Imagesフォルダ, cameras.txt, images.txt, points3D.txtを選択してPostshotにドラッグ&ドロップします
 ![](https://storage.googleapis.com/zenn-user-upload/cb6564b73383-20260322.png)
-* まず、Imagesフォルダ, cameras.txt, images.txt, points3D.txtを選択してPostshotにドラッグ&ドロップします
-### Mask設定
-![](https://storage.googleapis.com/zenn-user-upload/14a3f080601f-20260322.png)
 
+### Mask設定
 * 次にmasksフォルダをPostshotのImage Masksの領域にドラッグ&ドロップします
 Mask Modeは**Remove Background**を選択します
-
+![](https://storage.googleapis.com/zenn-user-upload/14a3f080601f-20260322.png)
 
 ### Cubemapの取り込み結果
+* Cubemapが正常に取り込まれると、下記の様な画面が出ます
 ![](https://storage.googleapis.com/zenn-user-upload/41e8ba454bde-20260322.png)
-* Cubemapが正常に取り込みされると、上記の様な画面が出ます
 ### 3DGS学習開始
-![](https://storage.googleapis.com/zenn-user-upload/d298d3ed5248-20260322.png)
 * 私が広域3DGSで使う学習パラメータ例を示します。シーンに合わせてパラメータは調整してください
+![](https://storage.googleapis.com/zenn-user-upload/d298d3ed5248-20260322.png)
 ### 3DGS学習結果
-![](https://storage.googleapis.com/zenn-user-upload/420154d101ed-20260322.png)
 * 学習が進むと、3DGSが見えてくると思います！
+![](https://storage.googleapis.com/zenn-user-upload/420154d101ed-20260322.png)
+
+# （LichtFeld Studio編）3D Gaussian Splattingの学習
+ここではLichtFeld Studio(LFS)を使って説明します
+### Cubemapの取り込み
+* [File]-> [Import Dataset]を選択して、Metashape 360 to COLMAP ConverterのOutput Folderを指定します
+![](./images/lfs_1.png)
+
+* 正しくデータが見つかると下記のようなダイアログが出ます。内容を確認して[Load]ボタンを押して次に進みます
+![](./images/lfs_2.png)
+
+* データ正しくロードされると下記のような画面が出ます
+![](./images/lfs_3.png)
+
+### 3DGS学習開始
+* Mask設定
+  * [Training Parameters]->[Mask Mode]->[Ignore]を選択します
+* 学習パラメータ
+  * 私が良く使う設定を下図に示します
+  * [Strategy]->[MRNF]をお勧めします（※この記事執筆時点）
+  * Max Gaussiansをシーンの大きさに応じて変更します(3,000,000～12,000,000)
+  * SH Degreeを調整します(1～3), VRAMが少ない環境は1を推奨します
+  * MRNFの場合、その他のパラメータの変更はあまり必要ありません
+  * LFSはパラメーターが多い為Webで調べてシーンに最適な設定を探してください
+![](./images/lfs_4.png)
+
+* [Start Training]を押して3DGSの学習を開始します。
+
+### 3DGS学習結果
+* 学習が進むと、3DGSが見えてくると思います！
+![](./images/lfs_result.jpg)
+
 
 # 最後に
 3DGSの手法は様々で、本記事は一例に過ぎません。最新の情報は私のXで発信していきます
