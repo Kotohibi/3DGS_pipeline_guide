@@ -89,6 +89,20 @@ Select [**Key points**] for [**Apply masks to**].
 Click OK to run SfM.  
 Example result shown below. The spherical markers correspond to each omnidirectional image.  
 ![](https://storage.googleapis.com/zenn-user-upload/026d9b7f7c2b-20260322.png)
+### Clean up Tie points
+* Remove low-reliability Tie points to improve SfM accuracy.
+This is a very important step for high-detail 3DGS.
+Select [Tools] → [Tie Points] → [Clean Tie points].
+![](./images/metashape_tie_clean_1.png)
+* Select [Reprojection error] and adjust the slider to remove about 5% of the Tie points.
+![](./images/metashape_tie_clean_2.png)
+* The number of Tie points is shown at the bottom left of the screen, so adjust the slider while checking how many Tie points will be removed.
+![](./images/metashape_tie_clean_3.png)
+* Click [Optimize Cameras] to optimize the cameras.
+![](./images/metashape_tie_clean_4.png)
+* Do the same for [Recostruction uncertainty], remove about 5% of the Tie points, and then run [Optimize Cameras] again.
+* Do the same for [Projection accuracy], remove about 5% of the Tie points, and then run [Optimize Cameras] again.
+* Repeat the above once more so that low-reliability Tie points are removed as much as possible.
 ### Export SfM results
     * Export Camera information  
       [File] → [Export] → [Export Cameras] → Select Agisoft XML (*.xml) and save.
