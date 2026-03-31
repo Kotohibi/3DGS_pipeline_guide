@@ -1,13 +1,18 @@
 # 概要
 本ワークフローは全天球画像:Equirectangular(正距円筒図法)画像を使って、ロバストかつ比較的高速にカメラアラインメント(SfM)を行い、3D Gaussian Splatting(3DGS)の学習を行うワークフロー例を示します
 # 参考
+### DJI AVATA360での撮影例
+* https://x.com/naribubu/status/2038881884558791088
+* https://x.com/naribubu/status/2038875398717722743
+### DJI OSMO360での撮影例
+* https://x.com/naribubu/status/2038646975894302792
 * https://x.com/naribubu/status/2034937726756430125
-* https://x.com/naribubu/status/2015376645360849394
 * https://x.com/naribubu/status/2020138127084695876
 * https://x.com/naribubu/status/2017883648075391214 (As for --yaw-offset option)
 # 必要な物
 * 360° カメラ
     * DJI OSMO360
+    * DJI AVATA360
     * Insta360
  
 * Metashape Standard

@@ -2,14 +2,19 @@
 This workflow demonstrates an example of performing robust and relatively fast camera alignment (SfM) using omnidirectional images: Equirectangular (equidistant cylindrical projection) images, followed by training 3D Gaussian Splatting (3DGS).
 
 # References
+### DJI AVATA360 examples
+* https://x.com/naribubu/status/2038881884558791088
+* https://x.com/naribubu/status/2038875398717722743
+### DJI OSMO360 examples
+* https://x.com/naribubu/status/2038646975894302792
 * https://x.com/naribubu/status/2034937726756430125
-* https://x.com/naribubu/status/2015376645360849394
 * https://x.com/naribubu/status/2020138127084695876
 * https://x.com/naribubu/status/2017883648075391214 (As for --yaw-offset option)
 
 # Requirements
 * 360° Camera
     * DJI OSMO360
+    * DJI AVATA360
     * Insta360
 
 * Metashape Standard
