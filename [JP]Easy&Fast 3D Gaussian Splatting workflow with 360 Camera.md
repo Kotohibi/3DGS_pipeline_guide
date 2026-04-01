@@ -216,4 +216,4 @@ Mask Modeは**Remove Background**を選択します
 # 最後に
 3DGSの手法は様々で、本記事は一例に過ぎません。最新の情報は私のXで発信していきます
 是非ご自身でも調査してより良い手法を開発してください。Enjoy 3DGS :) 
-* my X: https://x.com/naribubu
+* my X: https://x.com/kotohibi_3d
