@@ -56,6 +56,8 @@
 |Scale width|全動画フレームの画像のシャープさを計算する時の画サイズです。大きくした方が緻密に計算されます。注）切り出し画像は常にオリジナル動画と同じ画サイズで切り出されます|
 |Chunk size|静止画を切り出す間隔を指定。30fps動画で30を指定すると1秒間隔で切り出されます|
 |Workers|画像のシャープさを計算する時のプロセス数を指定。4前後がお勧めです|
+|Remove similar frames|類似画像を除外します|
+|pHash threshold|類似画像の判定閾値を指定します。値が大きいほど画像を間引きます。撮影時の移動速度が不規則な場合に有効な機能です|
 |Mask Generation|人や自動車等の動体のマスク画像を生成します。後段のSfMの精度が上がります|
 |YOLO Class IDs|検出したい動体IDを指定します。 0: person, 1: bicycle, 2: car, etc.. 様々な動体を指定可能です。https://github.com/ultralytics/ultralytics/blob/main/ultralytics/cfg/datasets/coco.yaml|
 |YOLO Confidence|閾値を下げると認識率は上がりますが、ノイズも増えます|

@@ -60,6 +60,8 @@ Here I introduce the tool I have published.
 | Scale width        | Image size used when calculating sharpness for all video frames. Larger values give more precise calculations. Note: Extracted images are always output at the original video resolution. |
 | Chunk size         | Interval for extracting still images. For a 30 fps video, setting 30 extracts images every 1 second. |
 | Workers            | Number of processes used when calculating image sharpness. Around 4 is recommended. |
+| Remove similar frames | Excludes similar images. |
+| pHash threshold    | Specifies the threshold for judging similar images. Higher values remove more images. This is useful when movement speed during shooting is irregular. |
 | Mask Generation    | Generates mask images for moving objects such as people and cars. This improves SfM accuracy in later steps. |
 | YOLO Class IDs     | Specify the object IDs you want to detect. 0: person, 1: bicycle, 2: car, etc. Various moving objects can be specified. https://github.com/ultralytics/ultralytics/blob/main/ultralytics/cfg/datasets/coco.yaml |
 | YOLO Confidence    | Lowering the threshold increases detection rate but also increases noise. |
