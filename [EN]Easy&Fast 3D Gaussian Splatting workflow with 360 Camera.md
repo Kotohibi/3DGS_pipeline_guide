@@ -17,6 +17,9 @@ This workflow demonstrates an example of performing robust and relatively fast c
     * DJI AVATA360
     * Insta360
 
+* High-end PC and NVIDIA GPU
+    * Training 3DGS requires a high-performance GPU. In particular, more VRAM is better. I recommend a GPU with at least 12 GB of VRAM.
+
 * Metashape Standard
     * Directly supports SfM with omnidirectional images; extremely fast and robust.
     * https://www.agisoft.com/features/standard-edition/

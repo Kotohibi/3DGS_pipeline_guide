@@ -15,6 +15,8 @@
     * DJI AVATA360
     * Insta360
  
+* ハイエンドPCとNVIDIA GPU
+    * 3DGSの学習には高性能なGPUが必要になります。特にVRAMは多い方が良いです。最低でも12GB以上のVRAMを搭載したGPUを推奨します。
 * Metashape Standard
     * 全天球画像を直接SfM可能で、非常に高速&ロバストです
     * https://www.agisoft.com/features/standard-edition/
