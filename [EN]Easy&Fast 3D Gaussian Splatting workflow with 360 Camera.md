@@ -58,17 +58,22 @@ Here I introduce the tool I have published.
 
 | Main Item          | Description |
 |--------------------|-------------|
-| Video file         | Select the omnidirectional video |
-| Output folder      | Specify the folder where still images and masks will be saved. `frames` and `masks` folders will be created under this folder. |
+| Video file         | Select the omnidirectional video.<br><small>Note: File paths containing multibyte characters are not supported.</small> |
+| Output folder      | Specify the folder where still images and masks will be saved. `frames` and `masks` folders will be created under this folder.<br><small>Note: File paths containing multibyte characters are not supported.</small> |
 | Scale width        | Image size used when calculating sharpness for all video frames. Larger values give more precise calculations. Note: Extracted images are always output at the original video resolution. |
 | Chunk size         | Interval for extracting still images. For a 30 fps video, setting 30 extracts images every 1 second. |
 | Workers            | Number of processes used when calculating image sharpness. Around 4 is recommended. |
-| Remove similar frames | Excludes similar images. |
-| pHash threshold    | Specifies the threshold for judging similar images. Higher values remove more images. This is useful when movement speed during shooting is irregular. |
+| Start (HH:MM:SS)   | Specify the time to start extraction. The format is HH:MM:SS.<br><small>If left blank, processing starts from the beginning of the video.</small> |
+| End (HH:MM:SS)     | Specify the time to end extraction. The format is HH:MM:SS.<br><small>If left blank, processing continues to the end of the video.</small> |
+| Remove similar frames | Excludes similar frames. |
+| pHash threshold    | Specifies the threshold for judging similar frames. Higher values remove more images. This is useful when movement speed during shooting is irregular. |
 | Mask Generation    | Generates mask images for moving objects such as people and cars. This improves SfM accuracy in later steps. |
 | YOLO Class IDs     | Specify the object IDs you want to detect. 0: person, 1: bicycle, 2: car, etc. Various moving objects can be specified. https://github.com/ultralytics/ultralytics/blob/main/ultralytics/cfg/datasets/coco.yaml |
 | YOLO Confidence    | Lowering the threshold increases detection rate but also increases noise. |
+| Custom Mask        | Specify a fixed mask image. If used together with YOLO automatic masking, they are merged. This is useful for masking areas that are always visible, such as a camera rig.<br><small>Note: Specify a PNG image with the same resolution as the video.</small><br>![](./images/ESP_2_1.png) |
 | Analysis only      | Perform only sharpness calculation. Calculation results (metadata) are saved in the output folder. On subsequent runs, if metadata exists in the output folder, the analysis phase is skipped and only image extraction is performed. Useful when adjusting Chunk size. |
+| Save config        | Save the above settings as a configuration file. |
+| Load config        | Load a previously saved configuration file. |
 | Run                | Execute processing |
 
 ### Execution Result
@@ -136,10 +141,10 @@ Here I introduce the tool I have published.
 
 | Main Item          | Description |
 |--------------------|-------------|
-| Input Images Folder| Specify the folder containing the extracted omnidirectional images |
-| Metashape XML      | Specify the Camera.xml from the SfM results |
-| PLY File           | Specify the point_cloud.ply from the SfM results |
-| Output Folder      | Specify the folder where the Cubemap will be saved |
+| Input Images Folder| Specify the folder containing the extracted omnidirectional images.<br><small>Note: File paths containing multibyte characters are not supported.</small> |
+| Metashape XML      | Specify the Camera.xml from the SfM results.<br><small>Note: File paths containing multibyte characters are not supported.</small> |
+| PLY File           | Specify the point_cloud.ply from the SfM results.<br><small>Note: File paths containing multibyte characters are not supported.</small> |
+| Output Folder      | Specify the folder where the Cubemap will be saved.<br><small>Note: File paths containing multibyte characters are not supported.</small> |
 | Crop Size          | Pixel size for the 6-direction crop. For OSMO360 8K video, 1920 is fine. |
 | FoV                | Field of view for the 6-direction crop. 90° is fine. |
 | Max Images         | Upper limit on the number of omnidirectional images to process. Use a small value when testing. |
