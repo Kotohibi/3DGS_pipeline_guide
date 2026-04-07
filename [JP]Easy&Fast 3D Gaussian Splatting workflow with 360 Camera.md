@@ -2,6 +2,7 @@
 本ワークフローは全天球画像:Equirectangular(正距円筒図法)画像を使って、ロバストかつ比較的高速にカメラアラインメント(SfM)を行い、3D Gaussian Splatting(3DGS)の学習を行うワークフロー例を示します
 # 参考
 ### DJI AVATA360での撮影例
+* https://x.com/kotohibi_3d/status/2040724840504758578
 * https://x.com/naribubu/status/2038881884558791088
 * https://x.com/naribubu/status/2038875398717722743
 ### DJI OSMO360での撮影例

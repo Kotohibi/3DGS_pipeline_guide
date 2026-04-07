@@ -3,6 +3,7 @@ This workflow demonstrates an example of performing robust and relatively fast c
 
 # References
 ### DJI AVATA360 examples
+* https://x.com/kotohibi_3d/status/2040724840504758578
 * https://x.com/naribubu/status/2038881884558791088
 * https://x.com/naribubu/status/2038875398717722743
 ### DJI OSMO360 examples
