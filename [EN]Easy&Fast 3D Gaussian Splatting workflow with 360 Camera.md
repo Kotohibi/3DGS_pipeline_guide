@@ -138,7 +138,7 @@ Here I introduce the tool I have published.
 **Metashape 360 to COLMAP Converter**  
 * **New features are prioritized for updates in the BOOTH edition**  
 ### Settings ①  
-![](https://storage.googleapis.com/zenn-user-upload/e7cf4c196027-20260322.png)
+![](./images/MS360CC.png)
 
 | Main Item          | Description |
 |--------------------|-------------|
@@ -169,6 +169,10 @@ Here I introduce the tool I have published.
 | YOLO Class IDs        | Specify detected object IDs. 0: person, 1: bicycle, 2: car, etc. You can specify various moving objects. https://github.com/ultralytics/ultralytics/blob/main/ultralytics/cfg/datasets/coco.yaml |
 | YOLO Confidence       | Lowering the threshold increases detection rate but also increases noise. |
 | Enable overexposure mask | Overexposed (blown-out) pixels can become noise during 3DGS training. Enable this if you want to remove them. |
+
+### Settings ③ (Advanced Settings)
+* You can load the custom masks configured in Extract Sharpest Frame. This is useful when used together with a camera rig. Specify mask images as PNG files with the same file count, resolution, and filenames as the still images.
+![](./images/MS360CC_2_1.png)
 
 ### Execute  
 After processing completes successfully, the following folders and files are generated in the output folder.  
