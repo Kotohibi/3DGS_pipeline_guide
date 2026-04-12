@@ -6,7 +6,7 @@
     * [Zenn Version](https://zenn.dev/kotohibi/articles/409bc16876b9e0) 
 
 * [[English] Masking strategy for 3DGS](https://docs.google.com/presentation/d/1XxT2oVQUOWYmLJlpHJNO5aRcKMPhlh0TbenV79FbuGw/edit?usp=sharing) <span style="color: #ff0000;">*new*</span>
-
+* [[English] Loose Coupling method for  Real Scale 3DGS with LiDAR SLAM](https://docs.google.com/presentation/d/100IEpF2vQLIZn1YVFbRQkOvKfnoTLO88yjSuux7ei_k/edit?usp=sharing) <span style="color: #ff0000;">*new*</span>
 <br>
   
 * [[Japanese] Concept of 360 Camera workflow for 3DGS(Google Slide)](https://docs.google.com/presentation/d/1vJqFi348G2yU591mRzWTuYHMnRLaCFwnkemWD7DGr3I/edit?usp=drive_link)
