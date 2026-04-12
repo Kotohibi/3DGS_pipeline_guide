@@ -33,10 +33,12 @@ This workflow demonstrates an example of performing robust and relatively fast c
     * Extract Sharpest Frame
         * https://github.com/Kotohibi/Extract_sharpest_frame
     * BOOTH Windows Binary Edition: https://kotohibi-cg.booth.pm/
+    * Gumroad Windows Binary Edition: https://kotohibi.gumroad.com/
 * Metashape 360 SfM to COLMAP-format Cubemap conversion tool
     * Metashape 360 to COLMAP Converter
         * https://github.com/Kotohibi/Metashape_360_to_COLMAP_plane
     * BOOTH Windows Binary Edition: https://kotohibi-cg.booth.pm/
+    * Gumroad Windows Binary Edition: https://kotohibi.gumroad.com/
 
 # Video Shooting (e.g. OSMO360)
 Attach the camera to a selfie stick and slowly walk through the area you want to capture.  
@@ -54,7 +56,7 @@ Recommended video settings: D-Log M, 30 fps or higher.
 There are many ways to extract still images from video. Research and choose your preferred method.  
 Here I introduce the tool I have published.  
 **Extract Sharpest Frame** is a tool that extracts the sharpest image at specified frame intervals.  
-* **New features are prioritized for updates in the BOOTH edition**  
+* **New features are prioritized for updates in the BOOTH and Gumroad editions**  
 ![](./images/ESP_2.png)
 
 | Main Item          | Description |
@@ -136,7 +138,7 @@ Select [Tools] → [Tie Points] → [Clean Tie points].
 Convert the Metashape SfM results into COLMAP-format 6-direction Cubemap images.  
 Here I introduce the tool I have published.  
 **Metashape 360 to COLMAP Converter**  
-* **New features are prioritized for updates in the BOOTH edition**  
+* **New features are prioritized for updates in the BOOTH and Gumroad editions**  
 ### Settings ①  
 ![](./images/MS360CC.png)
 
@@ -159,7 +161,7 @@ Here I introduce the tool I have published.
 * You can mask moving objects such as people or vehicles.  
 * Especially important for 360° cameras because the operator is often captured in the frame. Mask generation is a critical step.  
 
-* **The settings below are explained in the BOOTH edition. The GitHub version has fewer features.**  
+* **The settings below are explained in the BOOTH and Gumroad editions. The GitHub version has fewer features.**  
 ![](https://storage.googleapis.com/zenn-user-upload/51916a668c5a-20260322.png)
 
 | Main Item             | Description |
