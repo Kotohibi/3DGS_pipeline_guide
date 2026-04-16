@@ -70,8 +70,8 @@ Here I introduce the tool I have published.
 | End (HH:MM:SS)     | Specify the time to end extraction. The format is HH:MM:SS.<br><small>If left blank, processing continues to the end of the video.</small> |
 | Remove similar frames | Excludes similar frames. |
 | pHash threshold    | Specifies the threshold for judging similar frames. Higher values remove more images. This is useful when movement speed during shooting is irregular. |
-| Mask Generation    | Generates mask images for moving objects such as people and cars. This improves SfM accuracy in later steps. |
-| YOLO Class IDs     | Specify the object IDs you want to detect. 0: person, 1: bicycle, 2: car, etc. Various moving objects can be specified. https://github.com/ultralytics/ultralytics/blob/main/ultralytics/cfg/datasets/coco.yaml |
+| Mask Generation    | Generates mask images for objects such as people and cars. This improves SfM accuracy in later steps. |
+| YOLO Class IDs     | Specify the object IDs you want to detect. 0: person, 1: bicycle, 2: car, etc. Multiple IDs can be specified comma-separated. https://github.com/ultralytics/ultralytics/blob/main/ultralytics/cfg/datasets/coco.yaml |
 | YOLO Confidence    | Lowering the threshold increases detection rate but also increases noise. |
 | Custom Mask        | Specify a fixed mask image. If used together with YOLO automatic masking, they are merged. This is useful for masking areas that are always visible, such as a camera rig.<br><small>Note: Specify a PNG image with the same resolution as the video.</small><br>![](./images/ESP_2_1.png) |
 | Analysis only      | Perform only sharpness calculation. Calculation results (metadata) are saved in the output folder. On subsequent runs, if metadata exists in the output folder, the analysis phase is skipped and only image extraction is performed. Useful when adjusting Chunk size. |
@@ -122,11 +122,11 @@ Select [Tools] → [Tie Points] → [Clean Tie points].
 * Click [Optimize Cameras] to optimize the cameras.
 ![](./images/metashape_tie_clean_4.png)
 
-* Do the same for [Recostruction uncertainty], remove about 5% of the Tie points, and then run [Optimize Cameras] again.
+* Do the same for [Reconstruction uncertainty], remove about 5% of the Tie points, and then run [Optimize Cameras] again.
 
 * Do the same for [Projection accuracy], remove about 5% of the Tie points, and then run [Optimize Cameras] again.
 
-* Repeat the above once more so that low-reliability Tie points are removed as much as possible.
+* Repeat this process once more: [Reprojection error] → [Optimize Cameras] → [Reconstruction uncertainty] → [Optimize Cameras] → [Projection accuracy] → [Optimize Cameras]. This helps remove low-reliability Tie points as much as possible.
 
 ### Export SfM results
     * Export Camera information  
@@ -158,7 +158,7 @@ Here I introduce the tool I have published.
 | Run Conversion     | Start the Cubemap conversion process |
 
 ### Settings ②  
-* You can mask moving objects such as people or vehicles.  
+* You can mask objects such as people or vehicles.  
 * Especially important for 360° cameras because the operator is often captured in the frame. Mask generation is a critical step.  
 
 * **The settings below are explained in the BOOTH and Gumroad editions. The GitHub version has fewer features.**  
@@ -166,9 +166,9 @@ Here I introduce the tool I have published.
 
 | Main Item             | Description |
 |-----------------------|-------------|
-| Mask Pass Mode        | Single: Detects moving objects only from the omnidirectional image (fast but lower accuracy). Dual: Uses both omnidirectional and Cubemap images (more processing but higher accuracy). |
+| Mask Pass Mode        | Single: Detects objects only from the omnidirectional image (fast but lower accuracy). Dual: Uses both omnidirectional and Cubemap images for the detection (more processing but higher accuracy). |
 | Merge Mode            | Mode used when combining masks in Dual mode. "union" simply merges both; "refine" uses the Cubemap mask as the base and integrates the omnidirectional mask. "refine" is recommended. |
-| YOLO Class IDs        | Specify detected object IDs. 0: person, 1: bicycle, 2: car, etc. You can specify various moving objects. https://github.com/ultralytics/ultralytics/blob/main/ultralytics/cfg/datasets/coco.yaml |
+| YOLO Class IDs        | Specify detected object IDs. 0: person, 1: bicycle, 2: car, etc. Multiple IDs can be specified comma-separated. https://github.com/ultralytics/ultralytics/blob/main/ultralytics/cfg/datasets/coco.yaml |
 | YOLO Confidence       | Lowering the threshold increases detection rate but also increases noise. |
 | Enable overexposure mask | Overexposed (blown-out) pixels can become noise during 3DGS training. Enable this if you want to remove them. |
 
