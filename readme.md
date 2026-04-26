@@ -16,6 +16,7 @@
 
 ----
 # Third-party Article List
-* [[YouTube]The Best Drone for Gaussian Splatting? (Antigravity A1) published by RadianceFields](https://youtu.be/LNfRwHoCcv8?si=E0nGTYSuC7RIKTPv)
+* [[YouTube]The Best Drone for Gaussian Splatting? (Antigravity A1) published by RadianceFields](https://youtu.be/LNfRwHoCcv8?si=E0nGTYSuC7RIKTPv) <span style="color: #ff0000;">*new*</span>
+  
 * [[Japanese] 春の桜並木を3Dで残す。360°動画から始める3DGS入門 written by SkyLink Japan](https://skylinkjapan.com/blog/blog_3dgs_2026040/)
 * [[Japanese] 3D Gaussian Splatting（3DGS）全天球動画撮影～公開まで｜バーレーンの事例から written by Takuma Nagao](https://note.com/mttr31/n/nd44057ffa5b3)
