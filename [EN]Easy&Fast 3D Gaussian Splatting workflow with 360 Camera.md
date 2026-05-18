@@ -241,3 +241,4 @@ Here I explain the workflow using LichtFeld Studio (LFS).
 There are many 3DGS methods, and this article is just one example. I will continue sharing the latest information on my X account.  
 Please research on your own and develop even better techniques. Enjoy 3DGS :)  
 * my X: https://x.com/kotohibi_3d
+* 3DGS pipeline guide: https://github.com/Kotohibi/3DGS_pipeline_guide
